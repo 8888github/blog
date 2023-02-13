@@ -12,14 +12,12 @@ const serverHandler = (req, res) => {
   res.setHeader("Content-Type", "application/json");
   req.method = req.method.toLocaleUpperCase();
   req.path = req.url.split("?")[0];
-  req.query = queryString.parse(req.path.split("?")[1]);
+  req.query = queryString.parse(req.url.split("?")[1])
 
-  console.log(req);
   // 处理 post 数据
   getPostData(req).then((postData) => {
-    req.body = postData;
 
-    // console.log(JSON.stringify(req.body));
+    req.body = postData;
 
     // 路由
     const blogDataPromise = HandeRoute(req, res);

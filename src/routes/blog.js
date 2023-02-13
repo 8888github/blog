@@ -1,4 +1,4 @@
-const { SuccessModel } = require("../model/responseModel");
+const { SuccessModel, ErrotModel } = require("../model/responseModel");
 const {
   getList,
   createNewBlog,
@@ -34,10 +34,14 @@ const HandeRoute = (req, res) => {
    * 博客删除
    */
   if (req.method === "POST" && req.path === "/api/blog/del") {
-    const resultPromise = delBlog(req.body.id);
-    return resultPromise.then((result) => {
-      return new SuccessModel(result, "删除成功");
-    });
+    const id = req.body.id || "";
+    if (id) {
+      const resultPromise = delBlog(id);
+      return resultPromise.then((result) => {
+        return new SuccessModel(result, "删除成功");
+      });
+    }
+    return new ErrotModel("获取失败");
   }
 
   /**
@@ -55,10 +59,13 @@ const HandeRoute = (req, res) => {
    */
   if (req.method === "GET" && req.path === "/api/blog/details") {
     const id = req.query.id || "";
-    const resultPromise = detailsBlog(id);
-    return resultPromise.then((result) => {
-      return new SuccessModel(result, "获取成功");
-    });
+    if (id) {
+      const resultPromise = detailsBlog(id);
+      return resultPromise.then((result) => {
+        return new SuccessModel(result, "获取成功");
+      });
+    }
+    return new ErrotModel("获取失败");
   }
 };
 

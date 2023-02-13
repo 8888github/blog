@@ -3,19 +3,18 @@ const { excSQL } = require("../../db/db");
 /**
  * 获取列表
  * @param {标题} title
- * @param {关键字} keyWord
+ * @param {关键字} keywords
  * @returns
  */
 
-const getList = (title = "", keyWord = "") => {
-  const selectUsers = `select * from bloglist;`;
+const getList = (title = "", keywords = "") => {
+  let selectUsers = `select * from bloglist `;
   if (title) {
-    selectUsers += ` title='%${title}%' `;
+    selectUsers += `WHERE title like '%${title}%' `;
   }
-  if (title) {
-    selectUsers += `and keyWord='%${keyWord}%'`;
+  if (keywords) {
+    selectUsers += `OR keywords like '%${keywords}%'`;
   }
-
   return excSQL(selectUsers);
 };
 
@@ -61,7 +60,7 @@ const updateBlog = (postData) => {
  * @returns
  */
 const detailsBlog = (id) => {
-  const detailsSql = `select * from bloglist where id="${id}";`;
+  const detailsSql = `SELECT * FROM bloglist WHERE id="${id}"`;
   return excSQL(detailsSql);
 };
 
