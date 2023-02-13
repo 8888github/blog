@@ -6,7 +6,7 @@ class BaseModel {
       message = null;
     }
     if (data) {
-      this.data = data;
+      this.data = data.length > 1 ? data : data[0];
     }
     if (message) {
       this.message = message;
